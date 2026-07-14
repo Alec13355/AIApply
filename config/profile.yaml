@@ -1,0 +1,57 @@
+# Your job-search parameters. Edit these before running the pipeline.
+
+# Target job titles (matched loosely by the LLM, not exact string match).
+target_titles:
+  - "Software Engineer"
+  - "Senior Software Engineer"
+
+# Locations you'll accept. Use "Remote" for remote-eligible roles.
+locations:
+  - "Remote"
+
+# One of: "remote", "hybrid", "onsite", "any"
+work_mode: "any"
+
+# One of: "entry", "mid", "senior", "staff", "principal", "any"
+seniority: "any"
+
+# Minimum acceptable base salary (annual, USD). Postings without listed
+# salary are still considered but flagged as unknown in the fit reasoning.
+salary_floor: 0
+
+# Industries to prefer. Leave empty to consider all.
+preferred_industries: []
+
+# Companies to never apply to or surface, regardless of fit.
+excluded_companies: []
+
+# Keywords in a posting that auto-exclude it (case-insensitive substring match).
+excluded_keywords: []
+
+# Minimum LLM fit score (0-100) required to take any action (apply or surface).
+min_fit_score: 75
+
+# Maximum number of applications to auto-submit in a single run. Safety cap —
+# the run stops applying (but keeps discovering/surfacing) once this is hit.
+daily_application_cap: 15
+
+# Consecutive application failures before the run halts entirely and reports
+# an error, instead of continuing to attempt (mis-)submissions.
+circuit_breaker_failures: 3
+
+# Canned answers for screening questions that have a real factual/legal
+# answer (work authorization, non-competes, salary expectations, etc) that
+# can't be safely inferred from your resume by an LLM. Key is matched as a
+# case-insensitive substring against the question's label text. Any such
+# question found on a form with no matching entry here is left unanswered
+# and that application is skipped (not submitted) rather than guessed.
+screening_answers:
+  "sponsorship": "No, I do not require visa sponsorship."
+  "work authoriz": "Yes, I am authorized to work without sponsorship."
+  "employment agreement": "No"
+  "non-compete": "No"
+  "previously worked": "No"
+  "previously employed": "No"
+  "relocat": "Yes, I am open to relocation."
+  "salary expect": "Open to discussing based on role scope."
+  "country of residence": "United States of America"

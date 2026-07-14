@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+
+# Secrets
+.env
+
+# User data (PII, resume, dedup store, screenshots) — never commit
+data/
+
+# OS
+.DS_Store

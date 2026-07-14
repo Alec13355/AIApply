@@ -1,0 +1,39 @@
+# Where AIApply looks for jobs, and what it's allowed to auto-apply to.
+#
+# IMPORTANT: only postings from `whitelist` entries are ever auto-submitted.
+# Everything else AIApply finds is only ever surfaced in the daily summary
+# for you to review and apply to yourself.
+
+# Companies AIApply is allowed to fully auto-apply to. `board` must be
+# "greenhouse", "lever", or "github". `slug` is the company's identifier in
+# that ATS's public job board URL, e.g. for https://boards.greenhouse.io/acme
+# the slug is "acme"; for https://jobs.lever.co/acme the slug is "acme".
+#
+# "github" is NOT a generic vendor integration like the other two -- it's a
+# single hardcoded company site (github.careers, on iCIMS). Its apply flow
+# currently always ends in CaptchaBlocked or NeedsManualReview rather than a
+# real submission (see apply/github_apply.py); it's kept whitelisted so
+# discovery/fit-scoring still runs and failures get surfaced in the daily
+# summary. Keep this entry LAST -- run.py processes the whitelist in order,
+# so this keeps any repeated github failures from tripping
+# circuit_breaker_failures before real Greenhouse/Lever applications in the
+# same run get a chance to submit.
+whitelist:
+  # NOTE: these are still placeholder slugs. discover_whitelisted() has no
+  # try/except around each fetch, so a 404 on a fake slug raises uncaught
+  # and crashes the whole run before it ever reaches github below. Swap in
+  # real company slugs before running for real.
+  - board: "greenhouse"
+    slug: "example-company"
+  - board: "lever"
+    slug: "example-company"
+  - board: "github"
+    slug: "github"   # ignored -- github_careers.py is hardcoded to www.github.careers
+
+# Additional sources to search for postings outside the whitelist. These are
+# never auto-applied to -- matches are only surfaced in the daily summary.
+# `query` terms are combined with your profile.yaml target_titles/locations.
+discovery:
+  web_search:
+    enabled: true
+    extra_queries: []
